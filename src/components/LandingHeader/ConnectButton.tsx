@@ -8,11 +8,13 @@ import { ArrowLine, ExitIcon, WalletIcon, WhiteWalletIcon } from "./SvgIcon";
 interface Props {
   showSideBar?: boolean;
 }
+// I have create this ConnectWeb3Button, since the readme told me to use web3.js on connect button
+// If you mean to use this component, I have fixed the dropdown part to work on hover
 const ConnectButton: FC<Props> = ({ showSideBar }) => {
   const { setVisible } = useWalletModal();
   const { publicKey, disconnect } = useWallet();
   return (
-    <button className="rounded-xl bg-primary-200 text-[white] tracking-[0.32px] py-2 px-4 group relative">
+    <button className="rounded-xl bg-primary-200 text-[white] tracking-[0.32px] py-2 px-4 group">
       {publicKey ? (
         <>
           <div className="flex items-center justify-center text-[12px] lg:text-[16px]">
@@ -22,11 +24,11 @@ const ConnectButton: FC<Props> = ({ showSideBar }) => {
               <ArrowLine />
             </div>
           </div>
-          <div className="w-[200px] absolute left-0 top-10 hidden group-hover:block">
+          <div className="w-[200px] absolute -translate-x-4 translate-y-2 hidden group-hover:block">
             <ul className="border-[0.75px] border-[#89C7B5] rounded-lg bg-[#162923] p-2 mt-2">
               <li>
                 <button
-                  className="flex gap-2 items-center text-[white] tracking-[-0.32px]"
+                  className="flex gap-2 items-center text-[white] hover:text-[#89C7B5] tracking-[-0.32px]"
                   onClick={() => setVisible(true)}
                 >
                   <WalletIcon /> Change Wallet
@@ -34,7 +36,7 @@ const ConnectButton: FC<Props> = ({ showSideBar }) => {
               </li>
               <li>
                 <button
-                  className="flex gap-2 items-center text-[white] tracking-[-0.32px]"
+                  className="flex gap-2 items-center text-[white] hover:text-[#89C7B5] tracking-[-0.32px]"
                   onClick={disconnect}
                 >
                   <ExitIcon /> Disconnect
@@ -60,7 +62,6 @@ const ConnectButton: FC<Props> = ({ showSideBar }) => {
         </div>
       )
       }
-      {/* <div className=""></div> */}
     </button >
   );
 };
