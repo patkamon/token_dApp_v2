@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Web3 from 'web3';
-import { WhiteWalletIcon } from "./SvgIcon";
+import { ExitIcon, WhiteWalletIcon } from "./SvgIcon";
 
 declare global {
     interface Window {
@@ -83,8 +83,12 @@ export default function ConnectWallet() {
         <div>
             {account ? (
                 <button
+                    onClick={disconnectWallet}
                     className="flex gap-2 items-center bg-primary-200 group relative text-white px-4 py-2 rounded hover:bg-[#89C7B5]"
                 >
+                    <span className='hidden group-hover:block'>
+                        <ExitIcon />
+                    </span>
                     <p>{balance} ETH | {account.slice(0, 4)}...{account.slice(-4)}</p>
                 </button>
             ) : (
@@ -99,3 +103,4 @@ export default function ConnectWallet() {
         </div>
     );
 }
+
