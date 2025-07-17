@@ -1,10 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import ConnectButton from './ConnectButton'
+import ConnectButton from './ConnectWeb3Button';
 import { useData } from "@/contexts/showSideBarContext";
 import Sidebar from './Sidebar';
 import { usePathname } from 'next/navigation'
+
 export default function LandingHeader() {
     const { showSideBar, setShowSideBar } = useData();
     const pathname = usePathname()
@@ -15,7 +16,7 @@ export default function LandingHeader() {
       }
     }, [pathname])
     return (
-        <div className='w-full fixed top-0 z-20'>
+        <div className='w-full fixed top-0 z-20 overflow-visible'>
             <div className='px-5 md:px-[100px] py-4 md:py-6 bg-secondary-200 flex flex-col items-center justify-center w-full '>
                 <div className='max-w-[1440px] w-full flex justify-between items-center'>
                     
@@ -32,7 +33,7 @@ export default function LandingHeader() {
                     </div>
                     {
                         (
-                            <div className='flex items-center gap-2 lg:gap-4'>
+                            <div className='hidden md:flex items-center gap-2 lg:gap-4'>
                                 <Image
                                     src='/icons/UK.svg'
                                     alt='uk'

@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { ExitIcon, WhiteWalletIcon } from "./SvgIcon";
+import { toast } from 'react-toastify';
 
 declare global {
     interface Window {
@@ -20,6 +21,8 @@ export default function ConnectWallet() {
             const web3Instance = new Web3(window.ethereum);
             setWeb3(web3Instance);
 
+            // Check if wallet is already connected
+            checkIfWalletIsConnected();
 
             window.ethereum.on('accountsChanged', (accounts: string[]) => {
                 if (accounts.length === 0) {
@@ -36,17 +39,9 @@ export default function ConnectWallet() {
         }
     }, []);
 
-    const disconnectWallet = () => {
-        setAccount(null);
-        setBalance(null);
-        if (balanceInterval) {
-            clearInterval(balanceInterval);
-            setBalanceInterval(null);
-        }
-    };
-
     const connectWallet = async () => {
         if (!window.ethereum) {
+            toast.error('Please install MetaMask!');
             return;
         }
 
@@ -56,6 +51,7 @@ export default function ConnectWallet() {
             });
             const selected = accounts[0];
             setAccount(selected);
+            toast.success('Wallet connected!');
             if (web3) fetchBalance(web3, selected);
 
             // pull balance every 5 seconds for real-time updates
@@ -65,9 +61,30 @@ export default function ConnectWallet() {
             setBalanceInterval(intervalId);
         } catch (err) {
             console.error('Wallet connection error:', err);
+            toast.error('Failed to connect wallet.');
         }
     };
 
+    const disconnectWallet = () => {
+        setAccount(null);
+        setBalance(null);
+        if (balanceInterval) {
+            clearInterval(balanceInterval);
+            setBalanceInterval(null);
+        }
+        toast.info('To fully disconnect, please remove this site from MetaMask\'s connected sites.');
+    };
+
+    const checkIfWalletIsConnected = async () => {
+        if (window.ethereum) {
+            const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+            if (accounts.length > 0) {
+                const connectedAccount = accounts[0];
+                setAccount(connectedAccount);
+                if (web3) fetchBalance(web3, connectedAccount);
+            }
+        }
+    };
 
     const fetchBalance = async (web3Instance: Web3, address: string) => {
         try {
@@ -103,4 +120,3 @@ export default function ConnectWallet() {
         </div>
     );
 }
-
