@@ -5,6 +5,7 @@ import ConnectButton from './ConnectWeb3Button';
 import { useData } from "@/contexts/showSideBarContext";
 import Sidebar from './Sidebar';
 import { usePathname } from 'next/navigation'
+import { Menu } from 'lucide-react';
 
 export default function LandingHeader() {
     const { showSideBar, setShowSideBar } = useData();
@@ -49,6 +50,7 @@ export default function LandingHeader() {
                 </div >
             </div >
             <div className='md:hidden w-full'>
+                <Menu className='ml-auto mr-2' onClick={()=>setShowSideBar(!showSideBar)} color='white'/>
                 {
                     showSideBar && (<Sidebar />)
                 }

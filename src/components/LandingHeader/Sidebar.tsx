@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import ConnectButton from './ConnectButton';
+import ConnectButton from './ConnectWeb3Button';
 import Image from 'next/image';
 import { useData } from "@/contexts/showSideBarContext";
 
@@ -36,7 +36,7 @@ export default function Sidebar() {
                     onClick={() => setShowSideBar(!showSideBar)}
                 />
             </div>
-            <ConnectButton showSideBar={showSideBar}/>
+            <ConnectButton/>
         </div>
     )
 }
